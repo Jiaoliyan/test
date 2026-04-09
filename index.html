@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>深度心理探秘：森林奇遇记</title>
     <style>
-        /* 样式部分：让它看起来像个正经的测试 */
         body {
             font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            background-color: #2c3e50; /* 深色背景增加神秘感 */
+            background-color: #2c3e50;
             color: #ecf0f1;
             display: flex;
             justify-content: center;
@@ -27,7 +26,24 @@
             width: 100%;
             text-align: center;
         }
-        h1 { color: #27ae60; margin-bottom: 30px; }
+        h1 { color: #27ae60; margin-bottom: 10px; }
+        
+        /* 新加的微信号样式 */
+        .contact-info {
+            color: #7f8c8d;
+            font-size: 0.95em;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .wechat-id {
+            color: #e67e22;
+            font-weight: bold;
+            background: #fdf2e9;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
         .scenario {
             line-height: 1.8;
             font-size: 1.1em;
@@ -57,7 +73,7 @@
             transform: translateY(-2px);
         }
         #result-area {
-            display: none; /* 初始隐藏 */
+            display: none;
             margin-top: 30px;
             padding: 20px;
             border: 2px dashed #e67e22;
@@ -78,6 +94,10 @@
 
 <div class="container">
     <h1>🌲 森林奇遇心理测试 🌲</h1>
+    
+    <div class="contact-info">
+        请把你的测试结果发给该微信号：<span class="wechat-id">Ceci_MVP</span>
+    </div>
     
     <div id="quiz-part">
         <div class="scenario">
@@ -100,21 +120,17 @@
 </div>
 
 <script>
-    // 逻辑部分
     const results = {
         'A': "👉 你是一个喜欢吃苹果的人。<br><br>没错，这个结果毫无惊喜。你以为测出什么？冒险精神？领导力？隐藏的童年创伤？不，你只是饿的时候选了苹果，说明你对苹果有食欲——换句话说，你喜欢吃苹果。恭喜你，你破解了宇宙真理。",
         'B': "👉 你是一个喜欢吃香蕉的人。<br><br>是不是觉得结果太准了？准到想打人？别急，这就是本测试的精髓：你选香蕉，当然是因为你觉得香蕉好吃。要是你讨厌香蕉，你早选别的了。所以——你，爱吃香蕉。科学无法解释这种精准度。",
-        'C': "👉 你是一个喜欢吃橙子的人。<br><br>等等，先别吐槽。你仔细想想：一个饿了三天的正常人，面对橙子毫不犹豫，说明什么？说明你内心深处对橙子有真挚的感情。翻译成人话：你就是爱吃橙子。本测试已经达到了占卜学的巅峰。",
+        'C': "👉 你是一个喜欢吃橙子的人。<br><br>等等，先别吐槽。你仔细想想：一个饿了三天的正常人，面对橙子毫不犹豫，说明什么？说明你内心深处对橙子有真挚的感情。翻译成人话：你就是爱吃橙子越。本测试已经达到了占卜学的巅峰。",
         'D': "👉 你是一个喜欢吃葡萄的人。<br><br>这个结果震撼你了吗？没有？那就对了。因为整个测试的设计原理就是：你选了哪种水果，就证明你喜欢吃那种水果。如果你不服气，说“我只是想填饱肚子”，那请问——你怎么不选旁边那盘石头？因为石头不能吃啊！你还是爱吃葡萄。"
     };
 
     function showResult(choice) {
-        // 隐藏题目
         document.getElementById('quiz-part').style.display = 'none';
-        // 显示结果区域
         const resultArea = document.getElementById('result-area');
         resultArea.style.display = 'block';
-        // 填充对应的结果文本
         document.getElementById('result-text').innerHTML = results[choice];
     }
 </script>
