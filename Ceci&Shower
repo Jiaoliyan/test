@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>专注陪伴：Countdown & Pomodoro</title>
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        body {
+            font-family: 'PingFang SC', sans-serif;
+            /* --- 关键：背景图设置 --- */
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('bg.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            /* -------------------- */
+            color: white;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .glass-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 40px;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .countdown-box {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .timer-display {
+            font-size: 2em;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .pomo-label {
+            font-size: 1.2em;
+            color: #ddd;
+            margin-bottom: 10px;
+        }
+
+        .pomo-time {
+            font-size: 6em;
+            font-family: 'Helvetica Neue', sans-serif;
+            margin: 10px 0;
+            font-weight: 200;
+        }
+
+        .btn-group button {
+            padding: 12px 35px;
+            font-size: 1em;
+            cursor: pointer;
+            border: 1px solid white;
+            border-radius: 50px;
+            margin: 10px;
+            background: transparent;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .btn-group button:hover {
+            background: white;
+            color: #333;
+        }
+
+        h2 { font-size: 1em; text-transform: uppercase; letter-spacing: 2px; opacity: 0.8; }
+    </style>
+</head>
+<body>
+
+<div class="glass-container">
+    <div class="countdown-box">
+        <h2>距离 2026-05-09 还有</h2>
+        <div class="timer-display" id="meeting-timer">00天 00时 00分 00秒</div>
+    </div>
+
+    <div class="pomodoro-box">
+        <div class="pomo-label">专注番茄钟</div>
+        <div class="pomo-time" id="pomo-display">25:00</div>
+        <div class="btn-group">
+            <button id="pomo-btn" onclick="togglePomo()">开始</button>
+            <button onclick="resetPomo()">重置</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- 倒计时逻辑 ---
+    const targetDate = new Date("2026-05-09 00:00:00").getTime();
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const gap = targetDate - now;
+
+        if (gap <= 0) {
+            document.getElementById("meeting-timer").innerText = "就是今天！💓";
+            return;
+        }
+
+        const second = 1000, minute = second * 60, hour = minute * 60, day = hour * 24;
+        const d = Math.floor(gap / day);
+        const h = Math.floor((gap % day) / hour);
+        const m = Math.floor((gap % hour) / minute);
+        const s = Math.floor((gap % minute) / second);
+
+        document.getElementById("meeting-timer").innerText = `${d}天 ${h}时 ${m}分 ${s}秒`;
+    }
+    setInterval(updateCountdown, 1000);
+
+    // --- 番茄钟逻辑 ---
+    let pomoTime = 25 * 60;
+    let pomoInterval = null;
+    let isRunning = false;
+
+    function togglePomo() {
+        const btn = document.getElementById('pomo-btn');
+        if (isRunning) {
+            clearInterval(pomoInterval);
+            btn.innerText = "继续";
+            isRunning = false;
+        } else {
+            isRunning = true;
+            btn.innerText = "暂停";
+            pomoInterval = setInterval(() => {
+                pomoTime--;
+                updatePomoDisplay();
+                if (pomoTime <= 0) {
+                    clearInterval(pomoInterval);
+                    alert("专注完成！");
+                    resetPomo();
+                }
+            }, 1000);
+        }
+    }
+
+    function resetPomo() {
+             clearInterval(pomoInterval);
+        pomoTime = 25 * 60;
+        isRunning = false;
+        document.getElementById('pomo-btn').innerText = "开始";
+        updatePomoDisplay();
+    }
+
+    function updatePomoDisplay() {
+        const mins = Math.floor(pomoTime / 60);
+        const secs = pomoTime % 60;
+        document.getElementById('pomo-display').innerText = 
+            `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+</script>
+
+</body>
+</html>
